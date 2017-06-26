@@ -35,7 +35,7 @@ $this->title = 'Модули Dvizh';
             <h2>1. Выберите категорию</h2>
             <ul class="nav nav-pills">
                 <?php foreach($categories as $cat) { ?>
-                    <li <?php if($cat->id == $category->id) echo 'class="active"';?>><a href="<?=Url::toRoute(['/site/index', 'categoryId' => $cat->id]);?>"><?=$cat->name;?></a></li>
+                    <li <?= $cat->id == @$category->id ? 'class="active"' : '' //todo $category==null ?>><a href="<?=Url::toRoute(['/site/index', 'categoryId' => $cat->id]);?>"><?=$cat->name;?></a></li>
                 <?php } ?>
             </ul>
 
@@ -45,7 +45,7 @@ $this->title = 'Модули Dvizh';
                     <fieldset>
                         <legend>dvizh\filter\widgets\FilterPanel</legend>
                         <div>
-                            <?=FilterPanel::widget(['itemId' => $category->id, 'findModel' => $queryForFilter, 'ajaxLoad' => true, 'resultHtmlSelector' => '#productsList']); ?>
+                            <?= FilterPanel::widget(['itemId' => @$category->id, 'findModel' => $queryForFilter, 'ajaxLoad' => true, 'resultHtmlSelector' => '#productsList']) //todo $category==null ?>
                         </div>
                     </fieldset>
                 </div>
