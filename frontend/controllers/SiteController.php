@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use dvizh\shop\models\product\ProductQuery;
 use Yii;
 use yii\web\Controller;
 use dvizh\shop\models\Category;
@@ -32,9 +33,10 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
+     * @param bool $onlyThisCategory
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($onlyThisCategory = false)
     {
         $categories = Category::find()->all();
 
@@ -46,10 +48,15 @@ class SiteController extends Controller
             $category = null;
         }
 
+        //var_dump('<br><br><br><br>', Category::buildTextTree(), Category::childList(@$catId), [$category->id] + Category::childList(@$catId));
+
+        /** @var ProductQuery $p */
+        $p = Product::find();
         if($category) {
-            $query = Product::find()->category($category->id)->orderBy('id DESC');
+            $categoryIds = $onlyThisCategory ? $category->id : [$category->id] + Category::childList($category->id);
+            $query = $p->category($categoryIds)->orderBy('id DESC');
         } else {
-            $query = Product::find()->orderBy('id DESC');
+            $query = $p->orderBy('id DESC');
         }
 
         $queryForFilter = clone $query;

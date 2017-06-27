@@ -77,7 +77,7 @@ $this->title = 'Модули Dvizh';
                         <fieldset>
                             <legend>dvizh\cart\widgets\ChangeOptions</legend>
                             <div>
-                                <?=ChangeOptions::widget(['model' => $product]);?>
+                                <?=ChangeOptions::widget(['model' => $product, 'type' => ChangeOptions::TYPE_RADIO]);?>
                             </div>
                         </fieldset>
                         
